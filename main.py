@@ -17,6 +17,7 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+
 print(f'{bcolors.WARNING}.....................' + f'{bcolors.FAIL}/´¯¯/' + f'{bcolors.OKBLUE}          Current Directory: ' + f'{bcolors.HEADER}' + os.getcwd())
 print(f'{bcolors.WARNING}...................' + f'{bcolors.FAIL},/¯.../' + f'{bcolors.OKBLUE}          Uptime: ' + f'{bcolors.HEADER}' + time) 
 print(f"{bcolors.WARNING}..................." + f"{bcolors.FAIL}/..../'" + f'{bcolors.OKBLUE}          Platform: ' + f'{bcolors.HEADER}' + sys.platform + ' ' + platform.architecture()[0] + ' ' + platform.machine())
