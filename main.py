@@ -35,6 +35,7 @@ today = datetime.datetime.now()
 time = to_preorder - today
 
 time = str(time)
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -60,3 +61,4 @@ print(' '*13 + f'{bcolors.FAIL}\..............(')
 
 file1.close()
 file2.close()
+file3.close()

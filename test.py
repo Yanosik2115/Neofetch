@@ -1,33 +1,39 @@
-from os import close, memfd_create
+from os import RTLD_LAZY, close, memfd_create
 import platform
 import sys 
 import datetime
+import random
 
-to_preorder = datetime.datetime(2021,9,24, 0, 0)
+rand = random.randint(0,5)
 
-today = datetime.datetime.now()
+print(rand)
 
-time = to_preorder - today
+max_char = 0
+lines_num = 0
+    
+def count_max_char():
+    max_char = 0
 
-print(to_preorder)
-print(today)
-print(time)
+    with open(f'/home/yanosik/Py/neofetch/ASCII/ASCII%s.txt' % (rand), 'r') as r:    
+        for count, line in enumerate(r):
+            if len(line) > max_char:
+                max_char = len(line)
+        return max_char
 
-# file1 = open('/proc/meminfo', 'r')
+with open(f'/home/yanosik/Py/neofetch/ASCII/ASCII%s.txt' % (rand), 'r') as r:
 
-# mem = file1.readlines()[0:2]
-# memTotal = ' '.join(mem[0].split()[1:])
-# memFree = ' '.join(mem[1].split()[1:])
+    max_char = count_max_char() + 5
+    print(max_char)
+    for lines in r:
+        print(lines.strip('\n') + ' '*(max_char - len(lines)) + ' ?')
+        
 
-# print(memTotal)
-# print(memFree)
-
-# file1.close()
-
-
-# uname = platform.uname()
+# with open(f'/home/yanosik/Py/neofetch/ASCII/ASCII%s.txt' % (rand), 'r') as r:
+#     for lines in r:
+#         print(lines.strip('\n'))
+    
 
 
-# print(uname.version.split()[0])
-#print(platform.architecture()[0])
-#print(platform.machine())
+#print(len(line.strip('\n')))
+
+#print(count + 1)
