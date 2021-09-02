@@ -2,6 +2,7 @@ import os
 import sys
 import platform
 import psutil
+import datetime
 
 time = os.popen('uptime -p').read()[:-1]
 
@@ -19,6 +20,21 @@ file2 = open('/proc/cpuinfo', 'r')
 
 cpu = ' '.join(file2.readlines()[4].split()[3:])
 
+file3 = open('/proc/meminfo', 'r')
+
+mem = file3.readlines()[0:2]
+
+memTotal = ' '.join(mem[0].split()[1:])
+memFree = ' '.join(mem[1].split()[1:])
+
+
+to_preorder = datetime.datetime(2021,9,24, 0, 0)
+
+today = datetime.datetime.now()
+
+time = to_preorder - today
+
+time = str(time)
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -37,8 +53,8 @@ print(' '*18 + f"{bcolors.FAIL}/..../'" + f'{bcolors.OKBLUE}           Platform:
 print(' '*13 + f"{bcolors.FAIL}/´¯/'..'/´¯¯`·¸" + f'{bcolors.OKBLUE}        Machine: ' + f'{bcolors.HEADER}' + proc[9] + ' ' + f'{bcolors.OKBLUE} Cores: ' + f'{bcolors.HEADER}' + ' ' + f'{str(cpucount)}')
 print(' '*10 + f"{bcolors.FAIL}/'/.../..../....../¨')" + f'{bcolors.OKBLUE}    Kernel: ' + f'{bcolors.HEADER}' + proc[2])
 print(' '*9 +  f"{bcolors.FAIL}('(....´...´... ¯~/'..')" + f'{bcolors.OKBLUE}   CPU: ' + f'{bcolors.HEADER}' + cpu)
-print(' '*10 + f"{bcolors.FAIL}\..............'...../")
-print(' '*11 + f"{bcolors.FAIL}\....\.........._.·´")
+print(' '*10 + f"{bcolors.FAIL}\..............'...../" + f'{bcolors.OKBLUE}    Memory: ' + f'{bcolors.HEADER}' + memFree + ' / ' + memTotal) 
+print(' '*11 + f"{bcolors.FAIL}\....\.........._.·´" + f'{bcolors.OKBLUE}     Young Leosia Ep: ' + f'{bcolors.HEADER}' + time)
 print(' '*12 + f"{bcolors.FAIL}\..............(")
 print(' '*13 + f'{bcolors.FAIL}\..............(')
 
