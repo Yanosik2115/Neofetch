@@ -1,6 +1,8 @@
 import random
 from enum import Enum
-import functions
+import functions as f
+
+
 class Bcolors(Enum):
     HEADER = "\033[95m"
     OKBLUE = "\033[94m"
@@ -12,24 +14,116 @@ class Bcolors(Enum):
     BOLD = "\033[1m"
     UNDERLINE = "\033[4m"
 
+
 def rand():
     rand = random.randint(0, 5)
     return rand
 
+random = rand()  # to do
+
 def count_max_char():
-
     max_char = 0
-
-    with open(f"/home/yanosik/Py/neofetch/ASCII/ASCII%s.txt" % (rand()), "r") as r:
+    with open(f"./ASCII/ASCII%s.txt" % (random), "r") as r:
         for line in r:
             if len(line) > max_char:
                 max_char = len(line)
         return max_char
 
-with open(f"/home/yanosik/Py/neofetch/ASCII/ASCII%s.txt" % (rand()), "r") as r:
+
+with open(f"./ASCII/ASCII%s.txt" % (random), "r") as r:
 
     max_char = count_max_char() + 5
-    print(max_char)
+    print(f"{Bcolors.HEADER.value}")
 
-    for lines in r:
-        print(lines.strip("\n") + " " * (max_char - len(lines)) + " ?")
+    for value, lines in enumerate(r):
+        if value == 1:
+            print(
+                lines.strip("\n")
+                + " " * (max_char - len(lines))
+                + f"{Bcolors.HEADER.value}"
+                + f.get_name()
+            )
+        elif value == 2:
+            print(
+                lines.strip("\n")
+                + " " * (max_char - len(lines))
+                + f"{Bcolors.OKCYAN.value}"
+                + "=" * len(f.get_name())
+            )
+        elif value == 3:
+            print(
+                f"{Bcolors.HEADER.value}"
+                + lines.strip("\n")
+                + " " * (max_char - len(lines))
+                + f"{Bcolors.OKBLUE.value}Current Directory: "
+                + f"{Bcolors.HEADER.value}"
+                + f.get_current_dir()
+            )
+        elif value == 4:
+            print(
+                lines.strip("\n")
+                + " " * (max_char - len(lines))
+                + f"{Bcolors.OKBLUE.value}Uptime: "
+                + f"{Bcolors.HEADER.value}"
+                + f.time_since_start()
+            )
+        elif value == 5:
+            print(
+                lines.strip("\n")
+                + " " * (max_char - len(lines))
+                + f"{Bcolors.OKBLUE.value}Platform: "
+                + f"{Bcolors.HEADER.value}"
+                + f.procInfo.proc_info()[0]
+                + " "
+                + f.platform.architecture()[0]
+                + " "
+                + f.platform.machine()
+            )
+        elif value == 5:
+            print(
+                lines.strip("\n")
+                + " " * (max_char - len(lines))
+                + f"{Bcolors.OKBLUE.value}Machine: "
+                + f"{Bcolors.HEADER.value}"
+                + f.procInfo.proc_info()[9]
+                + " "
+                + f"{Bcolors.OKBLUE.value}Cores: "
+                + f"{Bcolors.HEADER.value}"
+                + f.cores_count()
+            )
+        elif value == 6:
+            print(
+                lines.strip("\n")
+                + " " * (max_char - len(lines))
+                + f"{Bcolors.OKBLUE.value}Kernel: "
+                + f"{Bcolors.HEADER.value}"
+                + f.procInfo.proc_info()[2]
+            )
+        elif value == 7:
+            print(
+                lines.strip("\n")
+                + " " * (max_char - len(lines))
+                + f"{Bcolors.OKBLUE.value}CPU:"
+                + f"{Bcolors.HEADER.value}"
+                + f.CPUInfo.cpu_info()
+            )
+        elif value == 7:
+            print(
+                lines.strip("\n")
+                + " " * (max_char - len(lines))
+                + f"{Bcolors.OKBLUE.value}Memory: "
+                + f"{Bcolors.HEADER.value}"
+                + f.memoryInfo.free_memory_info()
+                + "/"
+                + f.memoryInfo.total_memory_info()
+            )
+        elif value == 8:
+            print(
+                lines.strip("\n")
+                + " " * (max_char - len(lines))
+                + f"{Bcolors.OKBLUE.value}Young Leosia Ep: "
+                + f"{Bcolors.HEADER.value}"
+                + f.time_till()
+            )
+        else:
+            print(lines.strip("\n"))
