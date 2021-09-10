@@ -103,7 +103,7 @@ with open(f"./ASCII/ASCII%s.txt" % (random), "r") as r:
             print(
                 lines.strip("\n")
                 + " " * (max_char - len(lines))
-                + f"{Bcolors.OKBLUE.value}CPU:"
+                + f"{Bcolors.OKBLUE.value}CPU: "
                 + f"{Bcolors.HEADER.value}"
                 + f.CPUInfo.cpu_info()
             )

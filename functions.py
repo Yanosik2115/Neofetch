@@ -13,6 +13,7 @@ class sysFiles(Enum):
 
 
 def get_OS():
+    
     uname = platform.uname()[0]
     if uname == "Linux":
         return "Linux"
@@ -25,7 +26,7 @@ def get_OS():
 class informationManager:
     def __init__(self, file_name):
         self.file_name = file_name
-
+    
     def openF(self):
         if get_OS() == "Linux":
             r = open("%s%s" % (sysFiles.proc.value, self.file_name))
