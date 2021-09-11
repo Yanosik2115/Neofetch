@@ -6,6 +6,7 @@ all:
 		$(CC) "$$line"; \
 		echo "$$line" "has been installed"; \
 	done < $(FILE)
+	
 
 	
 

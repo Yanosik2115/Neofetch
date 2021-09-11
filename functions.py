@@ -1,4 +1,4 @@
-import os
+import os, sys
 import platform
 import psutil
 import datetime
@@ -13,20 +13,17 @@ class sysFiles(Enum):
 
 
 def get_OS():
-    
-    uname = platform.uname()[0]
-    if uname == "Linux":
+    if sys.platform.startswith("linux"):  # variations: linux2,linux-i386 (any others?)
         return "Linux"
-    elif uname == "Windows":
-        return "Windows"
-    elif uname == "MacOS":
+    elif sys.platform.startswith("win32"):
+        return 'Windows'
+    elif sys.platform == "darwin":       
         return "MacOS"
-
 
 class informationManager:
     def __init__(self, file_name):
         self.file_name = file_name
-    
+
     def openF(self):
         if get_OS() == "Linux":
             r = open("%s%s" % (sysFiles.proc.value, self.file_name))

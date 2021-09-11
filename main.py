@@ -19,7 +19,9 @@ def rand():
     rand = random.randint(0, 5)
     return rand
 
+
 random = rand()  # to do
+
 
 def count_max_char():
     max_char = 0
