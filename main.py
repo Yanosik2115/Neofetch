@@ -1,7 +1,8 @@
+import platform
 import random
 from enum import Enum
+
 import functions as f
-import platform
 
 
 class Bcolors(Enum):
@@ -73,26 +74,26 @@ with open(f"./ASCII/ASCII%s.txt" % (Random.random), "r") as r:
         elif value == 5:
             print(
                 lines.strip("\n")
-                + " " * (max_char - len(lines))
+                + f" " * (max_char - len(lines))
                 + f"{Bcolors.OKBLUE.value}Platform: "
-                + f"{Bcolors.HEADER.value}"
-                + f.ProcInfo.platform()
-                + " "
-                + platform.architecture()[0]
-                + " "
-                + platform.machine()
+                f"{Bcolors.HEADER.value}"
+                f"{f.ProcInfo.platform()}"
+                f" "
+                f"{platform.architecture()[0]}"
+                f" "
+                f"{platform.machine()}"
             )
         elif value == 6:
             print(
                 lines.strip("\n")
-                + " " * (max_char - len(lines))
+                + f" " * (max_char - len(lines))
                 + f"{Bcolors.OKBLUE.value}Enviroment: "
-                + f"{Bcolors.HEADER.value}"
-                + f.ProcInfo.environment()
-                + " "
-                + f"{Bcolors.OKBLUE.value}Cores: "
-                + f"{Bcolors.HEADER.value}"
-                + f.BaseLibraryFunctions.cores_count()
+                f"{Bcolors.HEADER.value}"
+                f"{f.ProcInfo.environment()}"
+                f" "
+                f"{Bcolors.OKBLUE.value}Cores: "
+                f"{Bcolors.HEADER.value}"
+                f"{f.BaseLibraryFunctions.cores_count()}"
             )
         elif value == 7:
             print(
@@ -107,18 +108,19 @@ with open(f"./ASCII/ASCII%s.txt" % (Random.random), "r") as r:
                 lines.strip("\n")
                 + " " * (max_char - len(lines))
                 + f"{Bcolors.OKBLUE.value}CPU: "
-                + f"{Bcolors.HEADER.value}"
-                + f.CPUInfo.cpu_info()
+                f"{Bcolors.HEADER.value}"
+                f"{f.CPUInfo.cpu_info()}",
+                end="",
             )
         elif value == 9:
             print(
                 lines.strip("\n")
-                + " " * (max_char - len(lines))
+                + f" " * (max_char - len(lines))
                 + f"{Bcolors.OKBLUE.value}Memory: "
-                + f"{Bcolors.HEADER.value}"
-                + f.MemoryInfo.free_memory_info()
-                + "/"
-                + f.MemoryInfo.total_memory_info()
+                f"{Bcolors.HEADER.value}"
+                f"{f.MemoryInfo.free_memory_info()}"
+                f"/"
+                f"{f.MemoryInfo.total_memory_info()}"
             )
         elif value == 10:
             print(

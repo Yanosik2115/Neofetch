@@ -1,17 +1,19 @@
-import os, sys
-import platform
-import psutil
 import datetime
-from enum import Enum
+import os
+import platform
 import subprocess
+import sys
 import warnings
+from enum import Enum
+
+import psutil
 
 
 class GetOS:
     def get_OS():
         if sys.platform.startswith("linux"):
             return "Linux"
-        elif sys.platform.startswith("win32") or sys.platform.startswith('win64'):
+        elif sys.platform.startswith("win32") or sys.platform.startswith("win64"):
             return "Windows"
         elif sys.platform == "darwin":
             return "darwin"
@@ -93,28 +95,29 @@ class MemoryInfo(InformationManager):
         super().__init__(file_name)
 
     def total_memory_info():
-        if GetOS.OS == 'Linux':
+        if GetOS.OS == "Linux":
             x = InformationManager(SysFiles.mem.value)
             mem = x.openF().readlines()[0:2]
             memT = [" ".join(mem[0].split()[1:]), " ".join(mem[1].split()[1:])]
             return memT[0]
-        elif GetOS == 'darwin':
-            return psutil.virtual_memory()[0] 
-
+        elif GetOS.OS == "darwin":
+            return psutil.virtual_memory()[0]
 
     def free_memory_info():
-        if GetOS.OS == 'Linux':
+        if GetOS.OS == "Linux":
             x = InformationManager(SysFiles.mem.value)
             mem = x.openF().readlines()[0:2]
             memT = [" ".join(mem[0].split()[1:]), " ".join(mem[1].split()[1:])]
             return memT[1]
-        elif GetOS == 'darwin':
+        elif GetOS.OS == "darwin":
             return psutil.virtual_memory()[3]
+
 
 class BaseLibraryFunctions:
     def time_since_start():
-        x = os.popen("uptime -p").read()[:-1]
-        return str(x)
+        if GetOS.OS is not "darwin":
+            return str(os.popen("uptime -p").read()[:-1])
+        return str(os.popen("uptime").read()[:-1])
 
     def get_current_dir():
         return os.getcwd()
