@@ -7,91 +7,114 @@ import subprocess
 import warnings
 
 
+class GetOS:
+    def get_OS():
+        if sys.platform.startswith("linux"):
+            return "Linux"
+        elif sys.platform.startswith("win32") or sys.platform.startswith('win64'):
+            return "Windows"
+        elif sys.platform == "darwin":
+            return "darwin"
+
+    OS = get_OS()
+
+
 class SysFiles(Enum):
     proc = "/proc/"
     ver = "version"
     mem = "meminfo"
     cpu = "cpuinfo"
 
+
 def get_output(cmd):
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True,stderr=subprocess.PIPE).communicate()
+    p = subprocess.Popen(
+        cmd, stdout=subprocess.PIPE, shell=True, stderr=subprocess.PIPE
+    ).communicate()
+    return p[0].decode("utf-8")
 
-    return(p[0].decode('utf-8'))
-
-def get_OS():
-    if sys.platform.startswith("linux"):
-        return "Linux"
-    elif sys.platform.startswith("win32"):
-        return 'Windows'
-    elif sys.platform == "darwin":       
-        return "darwin"
 
 class InformationManager:
     def __init__(self, file_name):
         self.file_name = file_name
 
     def openF(self):
-        if get_OS() == "Linux":
+        if GetOS.OS == "Linux":
             r = open("%s%s" % (SysFiles.proc.value, self.file_name))
             return r
-        
         else:
-            raise warnings.warn(message='Cannot read CPU information', stacklevel=2) 
+            raise warnings.warn(message="Cannot read CPU information", stacklevel=2)
+
+
 class CPUInfo(InformationManager):
     def __init__(self, file_name):
         super().__init__(file_name)
 
     def cpu_info():
-        if get_OS() == 'Linux':
+        if GetOS.OS == "Linux":
             x = InformationManager(SysFiles.cpu.value)
             return " ".join(x.openF().readlines()[4].split()[3:])
-        elif get_OS() == 'darwin':
-            r = get_output('sysctl -n machdep.cpu.brand_string')
+        elif GetOS.OS == "darwin":
+            r = get_output("sysctl -n machdep.cpu.brand_string")
             return r
 
 
 class ProcInfo(InformationManager):
     def __init__(self, file_name):
         super().__init__(file_name)
-    def enviroment():
-        OS = get_OS()
-        if OS == 'Linux':
+
+    def environment():
+        if GetOS.OS == "Linux":
             x = InformationManager(SysFiles.ver.value)
             return x.openF().read().split()[5][1:]
+        if GetOS.OS == "darwin":
+            pass
+
     def platform():
-        OS = get_OS()
-        if OS == 'Linux':
+        if GetOS.OS == "Linux":
             x = InformationManager(SysFiles.ver.value)
             return x.openF().read().split()[0]
-        elif OS == 'darwin':
-            x = get_output('sw_vers')
+        elif GetOS.OS == "darwin":
+            x = get_output("sw_vers")
             return x.split()[1:3]
+
     def kernel():
-        OS = get_OS()
-        if OS == 'Linux':
-            x = InformationManager(SysFiles.ver.value)
-            return x.openF().read().split()[2]
+        # if GetOS.OS == "Linux":
+        #     x = InformationManager(SysFiles.ver.value)
+        #     return x.openF().read().split()[2]
+        # elif GetOS.OS == "darwin":
+        #     x = platform.release()
+        #     return x
+        x = platform.release()
+        return x
+
 
 class MemoryInfo(InformationManager):
     def __init__(self, file_name):
         super().__init__(file_name)
 
     def total_memory_info():
-        x = InformationManager(SysFiles.mem.value)
-        mem = x.openF().readlines()[0:2]
-        memT = [" ".join(mem[0].split()[1:]), " ".join(mem[1].split()[1:])]
-        return memT[0]
+        if GetOS.OS == 'Linux':
+            x = InformationManager(SysFiles.mem.value)
+            mem = x.openF().readlines()[0:2]
+            memT = [" ".join(mem[0].split()[1:]), " ".join(mem[1].split()[1:])]
+            return memT[0]
+        elif GetOS == 'darwin':
+            return psutil.virtual_memory()[0] 
+
 
     def free_memory_info():
-        x = InformationManager(SysFiles.mem.value)
-        mem = x.openF().readlines()[0:2]
-        memT = [" ".join(mem[0].split()[1:]), " ".join(mem[1].split()[1:])]
-        return memT[1]
+        if GetOS.OS == 'Linux':
+            x = InformationManager(SysFiles.mem.value)
+            mem = x.openF().readlines()[0:2]
+            memT = [" ".join(mem[0].split()[1:]), " ".join(mem[1].split()[1:])]
+            return memT[1]
+        elif GetOS == 'darwin':
+            return psutil.virtual_memory()[3]
 
-class BaseLibraryFunctions():
-    
+class BaseLibraryFunctions:
     def time_since_start():
-        return os.popen("uptime -p").read()[:-1]
+        x = os.popen("uptime -p").read()[:-1]
+        return str(x)
 
     def get_current_dir():
         return os.getcwd()

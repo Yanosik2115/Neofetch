@@ -3,6 +3,7 @@ from enum import Enum
 import functions as f
 import platform
 
+
 class Bcolors(Enum):
     HEADER = "\033[95m"
     OKBLUE = "\033[94m"
@@ -14,12 +15,13 @@ class Bcolors(Enum):
     BOLD = "\033[1m"
     UNDERLINE = "\033[4m"
 
-class Random():
+
+class Random:
     def rand():
         rand = random.randint(0, 5)
         return rand
 
-    random = rand() 
+    random = rand()
 
 
 def count_max_char():
@@ -86,7 +88,7 @@ with open(f"./ASCII/ASCII%s.txt" % (Random.random), "r") as r:
                 + " " * (max_char - len(lines))
                 + f"{Bcolors.OKBLUE.value}Enviroment: "
                 + f"{Bcolors.HEADER.value}"
-                + f.ProcInfo.enviroment()
+                + f.ProcInfo.environment()
                 + " "
                 + f"{Bcolors.OKBLUE.value}Cores: "
                 + f"{Bcolors.HEADER.value}"
