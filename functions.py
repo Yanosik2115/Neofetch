@@ -53,8 +53,15 @@ class ProcInfo(InformationManager):
         super().__init__(file_name)
 
     def proc_info():
-        x = InformationManager(SysFiles.ver.value)
-        return x.openF().read().split()
+        OS = get_OS()
+
+        if OS == 'Linux':
+            x = InformationManager(SysFiles.ver.value)
+            return x.openF().read().split()
+        elif OS == 'darwin':
+            x = InformationManager()
+            return x.openF()
+            
 
 
 class MemoryInfo(InformationManager):
