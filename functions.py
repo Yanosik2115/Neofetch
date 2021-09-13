@@ -3,14 +3,20 @@ import platform
 import psutil
 import datetime
 from enum import Enum
+import subprocess
+import warnings
 
 
-class sysFiles(Enum):
+class SysFiles(Enum):
     proc = "/proc/"
     ver = "version"
     mem = "meminfo"
     cpu = "cpuinfo"
 
+def getOutput(cmd):
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True,stderr=subprocess.PIPE).communicate()
+
+    return(p[0].decode('utf-8'))
 
 def get_OS():
     if sys.platform.startswith("linux"):  # variations: linux2,linux-i386 (any others?)
@@ -20,86 +26,84 @@ def get_OS():
     elif sys.platform == "darwin":       
         return "MacOS"
 
-class informationManager:
+class InformationManager:
     def __init__(self, file_name):
         self.file_name = file_name
 
     def openF(self):
         if get_OS() == "Linux":
-            r = open("%s%s" % (sysFiles.proc.value, self.file_name))
+            r = open("%s%s" % (SysFiles.proc.value, self.file_name))
             return r
-
-
-class CPUInfo(informationManager):
+        elif get_OS() == 'darwin':
+            r = getOutput('sysctl -n machdep.cpu.brand_string')
+            return r
+        else:
+            raise warnings.warn(message='Cannot read CPU information', stacklevel=2) 
+class CPUInfo(InformationManager):
     def __init__(self, file_name):
         super().__init__(file_name)
 
     def cpu_info():
-        x = informationManager(sysFiles.cpu.value)
+        x = InformationManager(SysFiles.cpu.value)
         return " ".join(x.openF().readlines()[4].split()[3:])
 
 
-class procInfo(informationManager):
+class ProcInfo(InformationManager):
     def __init__(self, file_name):
         super().__init__(file_name)
 
     def proc_info():
-        x = informationManager(sysFiles.ver.value)
+        x = InformationManager(SysFiles.ver.value)
         return x.openF().read().split()
 
 
-class memoryInfo(informationManager):
+class MemoryInfo(InformationManager):
     def __init__(self, file_name):
         super().__init__(file_name)
 
     def total_memory_info():
-        x = informationManager(sysFiles.mem.value)
+        x = InformationManager(SysFiles.mem.value)
         mem = x.openF().readlines()[0:2]
         memT = [" ".join(mem[0].split()[1:]), " ".join(mem[1].split()[1:])]
         return memT[0]
 
     def free_memory_info():
-        x = informationManager(sysFiles.mem.value)
+        x = InformationManager(SysFiles.mem.value)
         mem = x.openF().readlines()[0:2]
         memT = [" ".join(mem[0].split()[1:]), " ".join(mem[1].split()[1:])]
         return memT[1]
 
+class BaseLibraryFunctions():
+    
+    def time_since_start():
+        return os.popen("uptime -p").read()[:-1]
 
-def time_since_start():
-    return os.popen("uptime -p").read()[:-1]
+    def get_current_dir():
+        return os.getcwd()
 
+    def cores_count():
+        cpucount = psutil.cpu_count(logical=True)
+        return str(cpucount)
 
-def get_current_dir():
-    return os.getcwd()
+    def get_name():
+        return platform.node()
 
+    def time_till():
+        till_date = datetime.datetime(2021, 9, 24, 0, 0)
+        today = datetime.datetime.now()
+        time_left = till_date - today
+        return str(time_left)
 
-def cores_count():
-    cpucount = psutil.cpu_count(logical=True)
-    return str(cpucount)
+    def machine_info():
+        # platform
+        ProcInfo.proc_info()[0]
 
+        platform.architecture()[0]
 
-def get_name():
-    return platform.node()
+        platform.machine()
 
+        # machine
+        ProcInfo.proc_info()[9]
 
-def time_till():
-    till_date = datetime.datetime(2021, 9, 24, 0, 0)
-    today = datetime.datetime.now()
-    time_left = till_date - today
-
-    return str(time_left)
-
-
-def funny_things():
-    # platform
-    procInfo.proc_info()[0]
-
-    platform.architecture()[0]
-
-    platform.machine()
-
-    # machine
-    procInfo.proc_info()[9]
-
-    # kernel
-    procInfo.proc_info()[2]
+        # kernel
+        ProcInfo.proc_info()[2]
