@@ -34,9 +34,7 @@ class InformationManager:
         if get_OS() == "Linux":
             r = open("%s%s" % (SysFiles.proc.value, self.file_name))
             return r
-        elif get_OS() == 'darwin':
-            r = get_output('sysctl -n machdep.cpu.brand_string')
-            return r
+        
         else:
             raise warnings.warn(message='Cannot read CPU information', stacklevel=2) 
 class CPUInfo(InformationManager):
@@ -44,25 +42,35 @@ class CPUInfo(InformationManager):
         super().__init__(file_name)
 
     def cpu_info():
-        x = InformationManager(SysFiles.cpu.value)
-        return " ".join(x.openF().readlines()[4].split()[3:])
+        if get_OS() == 'Linux':
+            x = InformationManager(SysFiles.cpu.value)
+            return " ".join(x.openF().readlines()[4].split()[3:])
+        elif get_OS() == 'darwin':
+            r = get_output('sysctl -n machdep.cpu.brand_string')
+            return r
 
 
 class ProcInfo(InformationManager):
     def __init__(self, file_name):
         super().__init__(file_name)
-
-    def proc_info():
+    def enviroment():
         OS = get_OS()
-
         if OS == 'Linux':
             x = InformationManager(SysFiles.ver.value)
-            return x.openF().read().split()
-        elif OS == 'darwin':
-            x = InformationManager(None)
-            return x.openF()
-            
+            return x.openF().read().split()[5][1:]
+    def platform():
+        OS = get_OS()
+        if OS == 'Linux':
+            x = InformationManager(SysFiles.ver.value)
+            return x.openF().read().split()[0]
+    def kernel():
+        OS = get_OS()
+        if OS == 'Linux':
+            x = InformationManager(SysFiles.ver.value)
+            return x.openF().read().split()[2]
 
+
+        
 
 class MemoryInfo(InformationManager):
     def __init__(self, file_name):

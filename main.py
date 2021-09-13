@@ -74,33 +74,33 @@ with open(f"./ASCII/ASCII%s.txt" % (Random.random), "r") as r:
                 + " " * (max_char - len(lines))
                 + f"{Bcolors.OKBLUE.value}Platform: "
                 + f"{Bcolors.HEADER.value}"
-                + f.ProcInfo.proc_info()[0]
+                + f.ProcInfo.platform()
                 + " "
                 + f.platform.architecture()[0]
                 + " "
                 + f.platform.machine()
             )
-        elif value == 5:
+        elif value == 6:
             print(
                 lines.strip("\n")
                 + " " * (max_char - len(lines))
-                + f"{Bcolors.OKBLUE.value}Machine: "
+                + f"{Bcolors.OKBLUE.value}Enviroment: "
                 + f"{Bcolors.HEADER.value}"
-                + f.ProcInfo.proc_info()[9]
+                + f.ProcInfo.enviroment()
                 + " "
                 + f"{Bcolors.OKBLUE.value}Cores: "
                 + f"{Bcolors.HEADER.value}"
                 + f.BaseLibraryFunctions.cores_count()
             )
-        elif value == 6:
+        elif value == 7:
             print(
                 lines.strip("\n")
                 + " " * (max_char - len(lines))
                 + f"{Bcolors.OKBLUE.value}Kernel: "
                 + f"{Bcolors.HEADER.value}"
-                + f.ProcInfo.proc_info()[2]
+                + f.ProcInfo.kernel()
             )
-        elif value == 7:
+        elif value == 8:
             print(
                 lines.strip("\n")
                 + " " * (max_char - len(lines))
@@ -108,7 +108,7 @@ with open(f"./ASCII/ASCII%s.txt" % (Random.random), "r") as r:
                 + f"{Bcolors.HEADER.value}"
                 + f.CPUInfo.cpu_info()
             )
-        elif value == 7:
+        elif value == 9:
             print(
                 lines.strip("\n")
                 + " " * (max_char - len(lines))
@@ -118,7 +118,7 @@ with open(f"./ASCII/ASCII%s.txt" % (Random.random), "r") as r:
                 + "/"
                 + f.MemoryInfo.total_memory_info()
             )
-        elif value == 8:
+        elif value == 10:
             print(
                 lines.strip("\n")
                 + " " * (max_char - len(lines))
