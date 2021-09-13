@@ -59,7 +59,7 @@ class ProcInfo(InformationManager):
             x = InformationManager(SysFiles.ver.value)
             return x.openF().read().split()
         elif OS == 'darwin':
-            x = InformationManager()
+            x = InformationManager(None)
             return x.openF()
             
 
