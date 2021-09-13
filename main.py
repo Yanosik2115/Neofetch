@@ -1,7 +1,7 @@
 import random
 from enum import Enum
 import functions as f
-
+import platform
 
 class Bcolors(Enum):
     HEADER = "\033[95m"
@@ -76,9 +76,9 @@ with open(f"./ASCII/ASCII%s.txt" % (Random.random), "r") as r:
                 + f"{Bcolors.HEADER.value}"
                 + f.ProcInfo.platform()
                 + " "
-                + f.platform.architecture()[0]
+                + platform.architecture()[0]
                 + " "
-                + f.platform.machine()
+                + platform.machine()
             )
         elif value == 6:
             print(

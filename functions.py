@@ -63,14 +63,14 @@ class ProcInfo(InformationManager):
         if OS == 'Linux':
             x = InformationManager(SysFiles.ver.value)
             return x.openF().read().split()[0]
+        elif OS == 'darwin':
+            x = get_output('sw_vers')
+            return x.split()[1]
     def kernel():
         OS = get_OS()
         if OS == 'Linux':
             x = InformationManager(SysFiles.ver.value)
             return x.openF().read().split()[2]
-
-
-        
 
 class MemoryInfo(InformationManager):
     def __init__(self, file_name):
@@ -108,17 +108,3 @@ class BaseLibraryFunctions():
         today = datetime.datetime.now()
         time_left = till_date - today
         return str(time_left)
-
-    def machine_info():
-        # platform
-        ProcInfo.proc_info()[0]
-
-        platform.architecture()[0]
-
-        platform.machine()
-
-        # machine
-        ProcInfo.proc_info()[9]
-
-        # kernel
-        ProcInfo.proc_info()[2]
