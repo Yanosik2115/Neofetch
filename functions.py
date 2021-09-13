@@ -24,7 +24,7 @@ def get_OS():
     elif sys.platform.startswith("win32"):
         return 'Windows'
     elif sys.platform == "darwin":       
-        return "MacOS"
+        return "darwin"
 
 class InformationManager:
     def __init__(self, file_name):
