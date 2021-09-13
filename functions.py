@@ -13,7 +13,7 @@ class SysFiles(Enum):
     mem = "meminfo"
     cpu = "cpuinfo"
 
-def getOutput(cmd):
+def get_output(cmd):
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True,stderr=subprocess.PIPE).communicate()
 
     return(p[0].decode('utf-8'))
@@ -35,7 +35,7 @@ class InformationManager:
             r = open("%s%s" % (SysFiles.proc.value, self.file_name))
             return r
         elif get_OS() == 'darwin':
-            r = getOutput('sysctl -n machdep.cpu.brand_string')
+            r = get_output('sysctl -n machdep.cpu.brand_string')
             return r
         else:
             raise warnings.warn(message='Cannot read CPU information', stacklevel=2) 
