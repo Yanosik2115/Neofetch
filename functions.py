@@ -19,7 +19,7 @@ def get_output(cmd):
     return(p[0].decode('utf-8'))
 
 def get_OS():
-    if sys.platform.startswith("linux"):  # variations: linux2,linux-i386 (any others?)
+    if sys.platform.startswith("linux"):
         return "Linux"
     elif sys.platform.startswith("win32"):
         return 'Windows'
@@ -65,7 +65,7 @@ class ProcInfo(InformationManager):
             return x.openF().read().split()[0]
         elif OS == 'darwin':
             x = get_output('sw_vers')
-            return x.split()[1]
+            return x.split()[1:3]
     def kernel():
         OS = get_OS()
         if OS == 'Linux':
